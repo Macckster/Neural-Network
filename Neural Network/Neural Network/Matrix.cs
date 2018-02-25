@@ -1,4 +1,10 @@
-﻿using System;
+﻿//Created by Marcus Jansson on 2018-02-21
+//Part of neural network code
+//GPLV3 License
+//This document may be reproduced and reused for any purpose
+
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +20,8 @@ namespace Neural_Network
         public int rows, cols;
         public float[,] matrix;
 
+
+        //Constructor
         public Matrix(int rows,int cols)
         {
             this.rows = rows;
@@ -22,6 +30,7 @@ namespace Neural_Network
             matrix = new float[rows,cols];
         }
 
+        //Add two matrices togheter ir add a scalar value to alla elements in the matrix
         public void add(object n)
         {
             Type t = n.GetType();
@@ -53,6 +62,8 @@ namespace Neural_Network
             }
         }
 
+
+        //Multiply two matrices togheter or multiply a scalar value to each index
         public Matrix multiply(object n)
         {
             Type t = n.GetType();
@@ -100,6 +111,7 @@ namespace Neural_Network
             }
         }
 
+        //"Flip" the matrix 90 degrees and with each element in the same order
         public Matrix transpose()
         {
             Matrix result = new Matrix(cols, rows);
@@ -114,6 +126,7 @@ namespace Neural_Network
             return result;
         }
 
+        //Generate a random value betwen 0 and 10 (inclusive) for each element in the array. These values are floats
         public void randomize()
         {
             for (int i = 0; i < rows; i++)

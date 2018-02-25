@@ -17,11 +17,6 @@ namespace Neural_Network
 
             Matrix mat3 = matrix.transpose();
 
-            if(mat3.rows == 69)
-            {
-                Console.WriteLine("hej");
-            }
-
             for (int i = 0; i < matrix.rows; i++)
             {
                 for (int j = 0; j < matrix.cols; j++)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,31 +8,19 @@ namespace Neural_Network
 {
     class Program
     {
-        static Matrix matrix = new Matrix(2, 3);
-        static Matrix mat2 = new Matrix(3, 2);
         static void Main(string[] args)
         {
-            matrix.randomize();
-            mat2.randomize();
+            NeuralNetwork nn = new NeuralNetwork(2, 2, 1);
 
-            Matrix mat3 = matrix.transpose();
+            float[] input = { 1, 0 };
+            float[] output = nn.feedForward(input);
 
-            for (int i = 0; i < matrix.rows; i++)
+            for (int i = 0; i < output.Length; i++)
             {
-                for (int j = 0; j < matrix.cols; j++)
-                {
-                    Console.WriteLine(matrix.matrix[i, j]);
-                }
+                Console.WriteLine(output[i]);
             }
 
-            for (int i = 0; i < mat3.rows; i++)
-            {
-                for (int j = 0; j < mat3.cols; j++)
-                {
-                    Console.WriteLine(mat3.matrix[i, j]);
-                }
-            }
-            Console.ReadKey();
+            Console.ReadLine();
         } 
     }
 }

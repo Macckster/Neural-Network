@@ -59,32 +59,20 @@ namespace Neural_Network
             }
         }
 
-        //Convert from array to Matrix
-        internal static Matrix fromArray(object inputArray)
-        {
-            float[] input = (float[])inputArray;
-
-            Matrix m = new Matrix(input.Length, 1);
-
-            for (int i = 0; i < input.Length; i++)
-            {
-                m.matrix[i, 0] = input[i];
-            }
-            return m;
-        }
-
         public float[] toArray()
         {
+            //Temporary solution, is ugly and slow and bad kappa
+            List<float> temp = new List<float>();
             float[] output = new float[cols * rows];
 
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    output[i * rows + j] = matrix[i, j];
+                    temp.Add(matrix[i, j]);
                 }
             }
-            
+            output = temp.ToArray();
             return output;
         }
         //Multiply two matrices togheter or multiply a scalar value to each index
@@ -185,6 +173,50 @@ namespace Neural_Network
                 }
                 Console.WriteLine();
             }
+        }
+
+        //Matrix class specific funtions not related to an individual object
+
+        //Convert from array to Matrix
+        internal static Matrix fromArray(object inputArray)
+        {
+            float[] input = (float[])inputArray;
+
+            Matrix m = new Matrix(input.Length, 1);
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                m.matrix[i, 0] = input[i];
+            }
+            return m;
+        }
+
+
+        //Multiply two matrices togheter
+        internal static Matrix multiplyTwo(Matrix a, Matrix b)
+        {
+            if (a.cols != b.rows)
+            {
+                return new Matrix(69, 0);
+            }
+
+            Matrix result = new Matrix(a.rows, b.cols);
+
+            for (int i = 0; i < result.rows; i++)
+            {
+                for (int j = 0; j < result.cols; j++)
+                {
+                    //Dot prodcut
+                    float sum = 0;
+                    for (int k = 0; k < a.cols; k++)
+                    {
+                        sum += a.matrix[i, k] * b.matrix[k, j];
+                    }
+                    result.matrix[i, j] = sum;
+                }
+            }
+
+            return result;
         }
     }
 }

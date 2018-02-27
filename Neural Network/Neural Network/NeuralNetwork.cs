@@ -45,25 +45,31 @@ namespace Neural_Network
             bias_o.randomize();
         }
 
+        //clamp x between -1 and 1
+        float sigmoid(float x)
+        {
+            return (float)(1 / (1 + Math.Exp(-x)));
+        }
 
         public float[] feedForward(object inputArray)
         {
-            //Allows passing of a simple float array or a already formatted matrix
+            //Allows passing argumnents of a simple float array or a already formatted matrix
             Type t = inputArray.GetType();
 
             Matrix inputs;
 
             if (!t.Equals(typeof(Matrix)))
             {
+                //Convert from an array if that is what was supplied
                  inputs = Matrix.fromArray(inputArray);
             }
             else
             {
+                //If a matrix was passed as the argument
                 inputs = (Matrix)inputArray;
             }
             
             //Generate hidden outputs
-
             Matrix hidden = weights_ih.multiply(inputs);
             hidden.add(bias_h);
 
@@ -79,11 +85,6 @@ namespace Neural_Network
 
             //Return output
             return output.toArray();
-        }
-
-        float sigmoid(float x)
-        {
-            return (float)(1 / (1 + Math.Exp(-x)));
         }
 
         public void train(float[] input, float answer)

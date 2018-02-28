@@ -10,7 +10,7 @@ namespace Neural_Network
     {
         static void Main(string[] args)
         {
-            NeuralNetwork nn = new NeuralNetwork(2, 2, 1);
+            NeuralNetwork nn = new NeuralNetwork(2, 2, 25);
 
             float[] input = { 1, 0 };
             float[] output = nn.feedForward(input);
@@ -19,7 +19,7 @@ namespace Neural_Network
             {
                 Console.WriteLine(output[i]);
             }
-
+            
             Console.ReadLine();
         } 
     }

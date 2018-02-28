@@ -61,7 +61,7 @@ namespace Neural_Network
             if (!t.Equals(typeof(Matrix)))
             {
                 //Convert from an array if that is what was supplied
-                 inputs = Matrix.fromArray(inputArray);
+                 inputs = Matrix.fromArray((float[])inputArray);
             }
             else
             {

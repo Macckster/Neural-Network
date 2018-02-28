@@ -2,11 +2,7 @@
 //GPLV3 License
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Neural_Network
 {
@@ -27,37 +23,30 @@ namespace Neural_Network
             matrix = new float[rows, cols];
         }
 
-        //Add two matrices togheter or add a scalar value to all elements in the matrix
-        public void add(object n)
+        //Add a scalar value to all elements in the matrix
+        public void add(float n)
         {
-            Type t = n.GetType();
-
-            if (t.Equals(typeof(float)) || t.Equals(typeof(int)))
+            //Scalar add
+            for (int i = 0; i < rows; i++)
             {
-                //Scalar add
-                for (int i = 0; i < rows; i++)
+                for (int j = 0; j < cols; j++)
                 {
-                    for (int j = 0; j < cols; j++)
-                    {
-                        matrix[i, j] += float.Parse(n.ToString());
-                    }
-                }
-            }
-            else
-            {
-                //Elementwise add
-
-                Matrix tempArray = (Matrix)n;
-
-                for (int i = 0; i < rows; i++)
-                {
-                    for (int j = 0; j < cols; j++)
-                    {
-                        matrix[i, j] += tempArray.matrix[i, j];
-                    }
+                    matrix[i, j] += n;
                 }
             }
         }
+
+        //Add two matrces together elementwise
+        public void add(Matrix n)
+        {
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    matrix[i, j] += n.matrix[i, j];
+                }
+            }
+        }  
 
         public float[] toArray()
         {
@@ -75,27 +64,23 @@ namespace Neural_Network
             output = temp.ToArray();
             return output;
         }
-        //Multiply two matrices togheter or multiply a scalar value to each index
-        public Matrix multiply(object n)
+        //Multiply each index with a scalar value
+        public Matrix multiply(float n)
         {
-            Type t = n.GetType();
-            if (t.Equals(typeof(float)) || t.Equals(typeof(int)))
+            for (int i = 0; i < rows; i++)
             {
-                //Scalar multiply
-
-                for (int i = 0; i < rows; i++)
+                for (int j = 0; j < cols; j++)
                 {
-                    for (int j = 0; j < cols; j++)
-                    {
-                        matrix[i, j] *= float.Parse(n.ToString());
-                    }
+                    matrix[i, j] *= float.Parse(n.ToString());
                 }
-
-                return new Matrix(0, 0);
             }
-            else
-            {
-                Matrix mat = (Matrix)n;
+
+            return new Matrix(0, 0);
+        }
+
+        //M
+        public Matrix multiply(Matrix mat)
+        { 
                 //Matrix Product
 
                 if (cols != mat.rows)
@@ -105,23 +90,22 @@ namespace Neural_Network
 
                 Matrix result = new Matrix(rows, mat.cols);
 
-                for (int i = 0; i < result.rows; i++)
+            for (int i = 0; i < result.rows; i++)
+            {
+                for (int j = 0; j < result.cols; j++)
                 {
-                    for (int j = 0; j < result.cols; j++)
+                    //Dot prodcut
+                    float sum = 0;
+                    for (int k = 0; k < cols; k++)
                     {
-                        //Dot prodcut
-                        float sum = 0;
-                        for (int k = 0; k < cols; k++)
-                        {
-                            sum += matrix[i, k] * mat.matrix[k, j];
-                        }
-                        result.matrix[i, j] = sum;
+                        sum += matrix[i, k] * mat.matrix[k, j];
                     }
+                    result.matrix[i, j] = sum;
                 }
+            }
 
                 return result;
             }
-        }
 
         //"Flip" the matrix 90 degrees and with each element in the same order
         public Matrix transpose()
@@ -178,9 +162,8 @@ namespace Neural_Network
         //Matrix class specific funtions not related to an individual object
 
         //Convert from array to Matrix
-        internal static Matrix fromArray(object inputArray)
+        internal static Matrix fromArray(float[] input)
         {
-            float[] input = (float[])inputArray;
 
             Matrix m = new Matrix(input.Length, 1);
 

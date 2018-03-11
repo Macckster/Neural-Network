@@ -46,7 +46,7 @@ namespace Neural_Network
                     matrix[i, j] += n.matrix[i, j];
                 }
             }
-        }  
+        }
 
         public float[] toArray()
         {
@@ -78,7 +78,7 @@ namespace Neural_Network
             return new Matrix(0, 0);
         }
 
-        //M
+        //Multiply
         public Matrix multiply(Matrix mat)
         { 
                 //Matrix Product
@@ -106,21 +106,6 @@ namespace Neural_Network
 
                 return result;
             }
-
-        //"Flip" the matrix 90 degrees and with each element in the same order
-        public Matrix transpose()
-        {
-            Matrix result = new Matrix(cols, rows);
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    result.matrix[j, i] = matrix[i, j];
-                }
-            }
-
-            return result;
-        }
 
         //Generate a random value betwen -1 and 1 (inclusive) for each element in the array. These values are floats
         public void randomize()
@@ -199,6 +184,35 @@ namespace Neural_Network
                 }
             }
 
+            return result;
+        }
+
+        //"Flip" the matrix 90 degrees and with each element in the same order
+        internal static Matrix transpose(Matrix matrix)
+        {
+            Matrix result = new Matrix(matrix.cols, matrix.rows);
+            for (int i = 0; i < matrix.rows; i++)
+            {
+                for (int j = 0; j < matrix.cols; j++)
+                {
+                    result.matrix[j, i] = matrix.matrix[i, j];
+                }
+            }
+
+            return result;
+        }
+
+        internal static Matrix subtract(Matrix a, Matrix b)
+        {
+            Matrix result = new Matrix(a.rows, a.cols);
+
+            for (int i = 0; i < result.rows; i++)
+            {
+                for (int j = 0; j < result.cols; j++)
+                {
+                    result.matrix[i, j] = a.matrix[i, j] - b.matrix[i, j];
+                }
+            }
             return result;
         }
     }

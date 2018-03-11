@@ -87,9 +87,21 @@ namespace Neural_Network
             return output.toArray();
         }
 
-        public void train(float[] input, float answer)
+        public void train(float[] input, float[] answer)
         {
+            Matrix outputs = Matrix.fromArray(feedForward(input));
+            Matrix targets = Matrix.fromArray(answer);
 
+            //Calculate output error
+            Matrix outErrors = Matrix.subtract(targets, outputs);
+
+            //Calculate hidden errors
+            Matrix who_t = Matrix.transpose(weights_ho);
+            Matrix errors_hidden = Matrix.multiplyTwo(who_t, outErrors);
+
+            targets.print();
+            outputs.print();
+            outErrors.print();
         }
     }
 }

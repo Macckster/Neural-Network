@@ -10,15 +10,13 @@ namespace Neural_Network
     {
         static void Main(string[] args)
         {
-            NeuralNetwork nn = new NeuralNetwork(2, 2, 25);
+            NeuralNetwork nn = new NeuralNetwork(2, 2, 1);
 
             float[] input = { 1, 0 };
-            float[] output = nn.feedForward(input);
+            float[] output = { 1 };
+            //float[] output = nn.feedForward(input);
 
-            for (int i = 0; i < output.Length; i++)
-            {
-                Console.WriteLine(output[i]);
-            }
+            nn.train(input, output);
             
             Console.ReadLine();
         } 

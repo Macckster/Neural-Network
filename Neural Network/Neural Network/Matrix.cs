@@ -36,18 +36,6 @@ namespace Neural_Network
             }
         }
 
-        //Add two matrces together elementwise
-        public void add(Matrix n)
-        {
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    matrix[i, j] += n.matrix[i, j];
-                }
-            }
-        }
-
         public float[] toArray()
         {
             //Temporary solution, is ugly and slow and bad kappa
@@ -213,6 +201,22 @@ namespace Neural_Network
                     result.matrix[i, j] = a.matrix[i, j] - b.matrix[i, j];
                 }
             }
+            return result;
+        }
+
+        //Add two matrices togheter
+        internal static Matrix add(Matrix a, Matrix b)
+        {
+            Matrix result = new Matrix(a.rows, a.cols);
+
+            for (int i = 0; i < a.rows; i++)
+            {
+                for (int j = 0; j < a.cols; j++)
+                {
+                    result.matrix[i, j] = a.matrix[i, j] + b.matrix[i, j];
+                }
+            }
+
             return result;
         }
     }

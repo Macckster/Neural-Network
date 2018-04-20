@@ -15,11 +15,11 @@ namespace Neural_Network
         int hiddenNodes;
         int outPutnodes;
 
-        Matrix weights_ih;
-        Matrix weights_ho;
+        Matrix weights_InHid;
+        Matrix weights_HidOut;
 
-        Matrix bias_h;
-        Matrix bias_o;
+        Matrix bias_Hidden;
+        Matrix bias_Out;
 
         public NeuralNetwork(int inputNodes, int hiddenNodes, int outPutnodes)
         {
@@ -29,20 +29,20 @@ namespace Neural_Network
             this.outPutnodes = outPutnodes;
 
             //Create weight matrices
-            weights_ih = new Matrix(this.hiddenNodes, this.inputNodes);
-            weights_ho = new Matrix(this.outPutnodes, this.hiddenNodes);
+            weights_InHid = new Matrix(this.hiddenNodes, this.inputNodes);
+            weights_HidOut = new Matrix(this.outPutnodes, this.hiddenNodes);
 
             //Randomize starting values in weight matrices
-            weights_ih.randomize();
-            weights_ho.randomize();
+            weights_InHid.randomize();
+            weights_HidOut.randomize();
 
             //Create new matrices for the biases for each connection
-            bias_h = new Matrix(hiddenNodes, 1);
-            bias_o = new Matrix(outPutnodes, 1);
+            bias_Hidden = new Matrix(hiddenNodes, 1);
+            bias_Out = new Matrix(outPutnodes, 1);
 
             //Randomize the bias matrices
-            bias_h.randomize();
-            bias_o.randomize();
+            bias_Hidden.randomize();
+            bias_Out.randomize();
         }
 
         //clamp x between -1 and 1
@@ -70,15 +70,15 @@ namespace Neural_Network
             }
             
             //Generate hidden outputs
-            Matrix hidden = weights_ih.multiply(inputs);
-            hidden.add(bias_h);
+            Matrix hidden = weights_InHid.multiply(inputs);
+            hidden.add(bias_Hidden);
 
             //Activation function
             hidden.map(sigmoid);
 
             //Generate the outputs
-            Matrix output = weights_ho.multiply(hidden);
-            output.add(bias_o);
+            Matrix output = weights_HidOut.multiply(hidden);
+            output.add(bias_Out);
 
             //Activation function
             output.map(sigmoid);
@@ -96,7 +96,7 @@ namespace Neural_Network
             Matrix outErrors = Matrix.subtract(targets, outputs);
 
             //Calculate hidden errors
-            Matrix who_t = Matrix.transpose(weights_ho);
+            Matrix who_t = Matrix.transpose(weights_HidOut);
             Matrix errors_hidden = Matrix.multiplyTwo(who_t, outErrors);
 
             targets.print();

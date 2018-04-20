@@ -14,11 +14,20 @@ namespace Neural_Network
 
             float[] input = { 1, 0 };
             float[] output = { 1 };
-            //float[] output = nn.feedForward(input);
+            float[] outP = nn.feedForward(input);
+            //print(outP);
 
             nn.train(input, output);
             
             Console.ReadLine();
-        } 
+        }
+
+        static void print(float[] outP)
+        {
+            for (int i = 0; i < outP.Length; i++)
+            {
+                Console.WriteLine(outP[i]);
+            }
+        }
     }
 }

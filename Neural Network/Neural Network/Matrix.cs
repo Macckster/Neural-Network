@@ -36,6 +36,18 @@ namespace Neural_Network
             }
         }
 
+        public void add(Matrix mat)
+        {
+            //Scalar add
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    matrix[i, j] += mat.matrix[i,j];
+                }
+            }
+        }
+
         public float[] toArray()
         {
             //Temporary solution, is ugly and slow and bad kappa

@@ -30,7 +30,7 @@ namespace Neural_Network
 
             datas[0] = new data(new float[] { 1, 1 }, new float[] { 0 });
             datas[1] = new data(new float[] { 0, 0 }, new float[] { 0 });
-            datas[2] = new data(new float[] { 1, 0 }, new float[] { 0 });
+            datas[2] = new data(new float[] { 1, 0 }, new float[] { 1 });
             datas[3] = new data(new float[] { 0, 1 }, new float[] { 1 });
 
 

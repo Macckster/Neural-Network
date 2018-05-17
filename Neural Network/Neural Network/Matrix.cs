@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Neural_Network
 {
@@ -130,6 +131,25 @@ namespace Neural_Network
                 }
             }
         }
+
+        public void save(string path)
+        {
+            if (!File.Exists(path))
+            {
+                File.Create(path);
+            }
+            string[] s = new string[cols * rows];
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    s[rows * i + j] += " " + matrix[i, j];
+                }
+            }
+
+            File.WriteAllLines(path,s);
+        }
+
 
         //DEBUG: PRINT ALL VALUES
         public void print()

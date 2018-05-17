@@ -19,6 +19,10 @@ namespace Neural_Network
 
             nn.train(input, output);
             
+            Matrix ut = Matrix.fromArray(outP);
+
+            ut.save("xd.txt");
+
             Console.ReadLine();
         }
 

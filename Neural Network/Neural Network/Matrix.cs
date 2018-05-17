@@ -66,47 +66,28 @@ namespace Neural_Network
             return output;
         }
         //Multiply each index with a scalar value
-        public Matrix multiply(float n)
+        public void multiply(float n)
         {
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    matrix[i, j] *= float.Parse(n.ToString());
+                    matrix[i, j] *= n;
                 }
             }
-
-            return new Matrix(0, 0);
         }
 
-        //Multiply
-        public Matrix multiply(Matrix mat)
-        { 
-                //Matrix Product
-
-                if (cols != mat.rows)
-                {
-                    return new Matrix(69, 0);
-                }
-
-                Matrix result = new Matrix(rows, mat.cols);
-
-            for (int i = 0; i < result.rows; i++)
+        //Multiply this matrix with another;
+        public void multiply(Matrix mat)
+        {
+            for (int i = 0; i < rows; i++)
             {
-                for (int j = 0; j < result.cols; j++)
+                for (int j = 0; j < cols; j++)
                 {
-                    //Dot prodcut
-                    float sum = 0;
-                    for (int k = 0; k < cols; k++)
-                    {
-                        sum += matrix[i, k] * mat.matrix[k, j];
-                    }
-                    result.matrix[i, j] = sum;
+                    matrix[i, j] *= mat.matrix[i, j];
                 }
             }
-
-                return result;
-            }
+        }
 
         //Generate a random value betwen -1 and 1 (inclusive) for each element in the array. These values are floats
         public void randomize()
@@ -138,12 +119,13 @@ namespace Neural_Network
             {
                 File.Create(path);
             }
+
             string[] s = new string[cols * rows];
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    s[rows * i + j] += " " + matrix[i, j];
+                    s[cols * i + j] += "" + matrix[i, j];
                 }
             }
 
@@ -181,11 +163,11 @@ namespace Neural_Network
 
 
         //Multiply two matrices togheter
-        internal static Matrix multiplyTwo(Matrix a, Matrix b)
+        internal static Matrix multiply(Matrix a, Matrix b)
         {
             if (a.cols != b.rows)
             {
-                return new Matrix(69, 0);
+                return new Matrix(69, 420);
             }
 
             Matrix result = new Matrix(a.rows, b.cols);
@@ -222,7 +204,24 @@ namespace Neural_Network
             return result;
         }
 
-        internal static Matrix subtract(Matrix a, Matrix b)
+        //Apply a function to all elements in the matrix
+        internal static Matrix map(Matrix mat,Func<float, float> function)
+        {
+            Matrix outP = new Matrix(mat.rows, mat.cols);
+
+            for (int i = 0; i < mat.rows; i++)
+            {
+                for (int j = 0; j < mat.cols; j++)
+                {
+                    outP.matrix[i, j] = function(mat.matrix[i, j]);
+                }
+            }
+
+            return outP;
+        }
+
+            //Subtract two matrices from eachother
+            internal static Matrix subtract(Matrix a, Matrix b)
         {
             Matrix result = new Matrix(a.rows, a.cols);
 

@@ -71,7 +71,7 @@ namespace Neural_Network
 
                 double[] inp = { value, value2 };
 
-                double[] outPut = nn.feedForward(inp);
+                double[] outPut = nn.guess(inp);
 
                 print(outPut);
             }

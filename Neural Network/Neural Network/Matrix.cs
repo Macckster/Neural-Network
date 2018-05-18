@@ -3,18 +3,16 @@
 //GPLV3 License
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace Neural_Network
 {
     class Matrix
     {
-        private Random prng = new Random();
+        private Random prng = new Random(); //Random object used to randomize the matrix
 
-        public int rows, cols;
-        public double[,] matrix;
-
+        public int rows, cols; //Amount of rows and colums in the matrix
+        public double[,] matrix; //The object that holds all the data
 
         //Constructor
         public Matrix(int rows, int cols)
@@ -28,7 +26,6 @@ namespace Neural_Network
         //Add a scalar value to all elements in the matrix
         public void add(double n)
         {
-            //Scalar add
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
@@ -38,9 +35,9 @@ namespace Neural_Network
             }
         }
 
+        //Add each of the values in one matrix to another given that they are the same size
         public void add(Matrix mat)
         {
-            //Scalar add
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
@@ -50,22 +47,21 @@ namespace Neural_Network
             }
         }
 
+        //Convert the matrix to a 1D array
         public double[] toArray()
         {
-            //Temporary solution, is ugly and slow and bad kappa
-            List<double> temp = new List<double>();
             double[] output = new double[cols * rows];
 
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    temp.Add(matrix[i, j]);
+                    output[i * cols + j] = matrix[i, j];
                 }
             }
-            output = temp.ToArray();
             return output;
         }
+
         //Multiply each index with a scalar value
         public void multiply(double n)
         {
@@ -153,7 +149,7 @@ namespace Neural_Network
             }
         }
 
-        //DEBUG: PRINT ALL VALUES
+        //Print the values of the matrix
         public void print()
         {
             for (int i = 0; i < rows; i++)
@@ -169,9 +165,8 @@ namespace Neural_Network
         //Matrix class specific funtions not related to an individual object
 
         //Convert from array to Matrix
-        internal static Matrix fromArray(double[] input)
+        public static Matrix fromArray(double[] input)
         {
-
             Matrix m = new Matrix(input.Length, 1);
 
             for (int i = 0; i < input.Length; i++)
@@ -183,7 +178,7 @@ namespace Neural_Network
 
 
         //Multiply two matrices togheter
-        internal static Matrix multiply(Matrix a, Matrix b)
+        public static Matrix multiply(Matrix a, Matrix b)
         {
             if (a.cols != b.rows)
             {
@@ -210,22 +205,21 @@ namespace Neural_Network
         }
 
         //"Flip" the matrix 90 degrees and with each element in the same order
-        internal static Matrix transpose(Matrix matrix)
+        public static Matrix transpose(Matrix mat)
         {
-            Matrix result = new Matrix(matrix.cols, matrix.rows);
-            for (int i = 0; i < matrix.rows; i++)
+            Matrix result = new Matrix(mat.cols, mat.rows);
+            for (int i = 0; i < mat.rows; i++)
             {
-                for (int j = 0; j < matrix.cols; j++)
+                for (int j = 0; j < mat.cols; j++)
                 {
-                    result.matrix[j, i] = matrix.matrix[i, j];
+                    result.matrix[j, i] = mat.matrix[i, j];
                 }
             }
-
             return result;
         }
 
         //Apply a function to all elements in the matrix
-        internal static Matrix map(Matrix mat,Func<double, double> function)
+        public static Matrix map(Matrix mat,Func<double, double> function)
         {
             Matrix outP = new Matrix(mat.rows, mat.cols);
 
@@ -240,8 +234,8 @@ namespace Neural_Network
             return outP;
         }
 
-            //Subtract two matrices from eachother
-            internal static Matrix subtract(Matrix a, Matrix b)
+        //Subtract two matrices from eachother
+        public static Matrix subtract(Matrix a, Matrix b)
         {
             Matrix result = new Matrix(a.rows, a.cols);
 
@@ -256,7 +250,7 @@ namespace Neural_Network
         }
 
         //Add two matrices togheter
-        internal static Matrix add(Matrix a, Matrix b)
+        public static Matrix add(Matrix a, Matrix b)
         {
             Matrix result = new Matrix(a.rows, a.cols);
 

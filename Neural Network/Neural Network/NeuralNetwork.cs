@@ -3,28 +3,24 @@
 //GPLV3 License
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Neural_Network
 {
     class NeuralNetwork
     {
-        int inputNodes;
-        int hiddenNodes;
-        int outPutnodes;
+        int inputNodes; //The number of input nodes
+        int hiddenNodes; //The number of hidden nodes (Nodes in the middle layer)
+        int outPutnodes; //The number of output nodes
 
-        double lr;
+        double lr; //The learning rate of the Network
 
-        Matrix weights_InHid;
-        Matrix weights_HidOut;
+        Matrix weights_InHid; //Weights between input and hidden layers
+        Matrix weights_HidOut; // Weights between hidden and output layers
 
-        Matrix bias_Hidden;
-        Matrix bias_Out;
+        Matrix bias_Hidden; //Bias on the hidden layer
+        Matrix bias_Out;  //Bias on the output layer
 
-        FunctionHandler activationFunction;
+        FunctionHandler activationFunction; //The activation functions that will be used
 
         public NeuralNetwork(int inputNodes, int hiddenNodes, int outPutnodes, double lr, FunctionHandler activationFunction)
         {
@@ -70,6 +66,12 @@ namespace Neural_Network
             bias_Out.serialize(path + @"\biasOut.txt");
         }
 
+        /// <summary>
+        /// Deserialize the contents of files to load up saved networks
+        /// </summary>
+        /// <param name="path">
+        /// The path to folder where the saved files are contained.
+        /// </param>
         public void deSerialize(string path)
         {
             //Deserialize the weights
@@ -101,16 +103,20 @@ namespace Neural_Network
             bias_Out.print();
         }
 
+        //Set the learning rate
         public void setLR(double lr)
         {
             this.lr = lr;
         }
+        
+        //Set the activation functions
         public void setFunc(FunctionHandler func)
         {
             activationFunction = func;
         }
 
-        public double[] feedForward(double[] input)
+        //Gues what output to give, given a set of inputs
+        public double[] guess(double[] input)
         {
             // Generating the Hidden Outputs
             Matrix inputs = Matrix.fromArray(input);

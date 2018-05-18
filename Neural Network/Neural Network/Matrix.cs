@@ -1,4 +1,5 @@
 //Created by Marcus Jansson on 2018-02-21
+//Neural Network Library
 //GPLV3 License
 
 using System;
@@ -12,7 +13,7 @@ namespace Neural_Network
         private Random prng = new Random();
 
         public int rows, cols;
-        public float[,] matrix;
+        public double[,] matrix;
 
 
         //Constructor
@@ -21,11 +22,11 @@ namespace Neural_Network
             this.rows = rows;
             this.cols = cols;
 
-            matrix = new float[rows, cols];
+            matrix = new double[rows, cols];
         }
 
         //Add a scalar value to all elements in the matrix
-        public void add(float n)
+        public void add(double n)
         {
             //Scalar add
             for (int i = 0; i < rows; i++)
@@ -49,11 +50,11 @@ namespace Neural_Network
             }
         }
 
-        public float[] toArray()
+        public double[] toArray()
         {
             //Temporary solution, is ugly and slow and bad kappa
-            List<float> temp = new List<float>();
-            float[] output = new float[cols * rows];
+            List<double> temp = new List<double>();
+            double[] output = new double[cols * rows];
 
             for (int i = 0; i < rows; i++)
             {
@@ -66,7 +67,7 @@ namespace Neural_Network
             return output;
         }
         //Multiply each index with a scalar value
-        public void multiply(float n)
+        public void multiply(double n)
         {
             for (int i = 0; i < rows; i++)
             {
@@ -89,20 +90,20 @@ namespace Neural_Network
             }
         }
 
-        //Generate a random value betwen -1 and 1 (inclusive) for each element in the array. These values are floats
+        //Generate a random value betwen -1 and 1 (inclusive) for each element in the array. These values are doubles
         public void randomize()
         {
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    matrix[i, j] += (float)prng.NextDouble() * 2 - 1;
+                    matrix[i, j] += (double)prng.NextDouble() * 2 - 1;
                 }
             }
         }
 
         //Apply a function to all elements in the matrix
-        public void map(Func<float, float> function)
+        public void map(Func<double, double> function)
         {
             for (int i = 0; i < rows; i++)
             {
@@ -113,7 +114,8 @@ namespace Neural_Network
             }
         }
 
-        public void save(string path)
+        //Dump the contents of the matrix in to a file so that you can save the values for later use
+        public void serialize(string path)
         {
             if (!File.Exists(path))
             {
@@ -131,7 +133,25 @@ namespace Neural_Network
 
             File.WriteAllLines(path,s);
         }
+        
+        //Read the contents of a file and asign all the numbers in it to their corresponding position in the matrix
+        public void deSerialize(string path)
+        {
+            if (!File.Exists(path))
+            {
+                return;
+            }
 
+            string[] s = File.ReadAllLines(path);
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    matrix[i, j] = double.Parse(s[cols * i + j]);
+                }
+            }
+        }
 
         //DEBUG: PRINT ALL VALUES
         public void print()
@@ -149,7 +169,7 @@ namespace Neural_Network
         //Matrix class specific funtions not related to an individual object
 
         //Convert from array to Matrix
-        internal static Matrix fromArray(float[] input)
+        internal static Matrix fromArray(double[] input)
         {
 
             Matrix m = new Matrix(input.Length, 1);
@@ -177,7 +197,7 @@ namespace Neural_Network
                 for (int j = 0; j < result.cols; j++)
                 {
                     //Dot prodcut
-                    float sum = 0;
+                    double sum = 0;
                     for (int k = 0; k < a.cols; k++)
                     {
                         sum += a.matrix[i, k] * b.matrix[k, j];
@@ -205,7 +225,7 @@ namespace Neural_Network
         }
 
         //Apply a function to all elements in the matrix
-        internal static Matrix map(Matrix mat,Func<float, float> function)
+        internal static Matrix map(Matrix mat,Func<double, double> function)
         {
             Matrix outP = new Matrix(mat.rows, mat.cols);
 
@@ -247,7 +267,6 @@ namespace Neural_Network
                     result.matrix[i, j] = a.matrix[i, j] + b.matrix[i, j];
                 }
             }
-
             return result;
         }
     }

@@ -12,26 +12,45 @@ namespace Neural_Network
 
         public struct data
         {
-            public float[] inputs;
-            public float[] targets;
+            public double[] inputs;
+            public double[] targets;
 
-            public data(float[] inputs, float[] targets)
+            public data(double[] inputs, double[] targets)
             {
                 this.inputs = inputs;
                 this.targets = targets;
             }
         }
 
+        //clamp x between 0 and 1
+        public static double sigmoid(double x)
+        {
+            return (double)(1 / (1 + Math.Exp(-x)));
+        }
+
+        //Derivative of sigmoid (asuming x has already been passed through sigmoid once
+        public static double dSigmoid(double x)
+        {
+            return x * (1 - x);
+        }
+
         static void Main(string[] args)
         {
-            NeuralNetwork nn = new NeuralNetwork(2, 2, 1, 0.1f);
-       
+            FunctionHandler f = new FunctionHandler(sigmoid, dSigmoid);
+
+            NeuralNetwork nn = new NeuralNetwork(2, 2, 1, 0.1f, f);
+
+            test(nn);
+        }
+
+        static void test(NeuralNetwork nn)
+        {
             data[] datas = new data[4];
 
-            datas[0] = new data(new float[] { 1, 1 }, new float[] { 0 });
-            datas[1] = new data(new float[] { 0, 0 }, new float[] { 0 });
-            datas[2] = new data(new float[] { 1, 0 }, new float[] { 1 });
-            datas[3] = new data(new float[] { 0, 1 }, new float[] { 1 });
+            datas[0] = new data(new double[] { 1, 1 }, new double[] { 0 });
+            datas[1] = new data(new double[] { 0, 0 }, new double[] { 0 });
+            datas[2] = new data(new double[] { 1, 0 }, new double[] { 1 });
+            datas[3] = new data(new double[] { 0, 1 }, new double[] { 1 });
 
 
             for (int i = 0; i < 50000; i++)
@@ -50,29 +69,15 @@ namespace Neural_Network
                 int value = int.Parse(ord[0]);
                 int value2 = int.Parse(ord[1]);
 
-                float[] inp = {value, value2};
+                double[] inp = { value, value2 };
 
-                float[] outPut = nn.feedForward(inp);
+                double[] outPut = nn.feedForward(inp);
 
                 print(outPut);
             }
         }
 
-        static void test()
-        {
-            Matrix a = new Matrix(1, 1);
-            Matrix b = new Matrix(1, 1);
-            a.matrix[0, 0] = 20;
-            b.matrix[0, 0] = 10;
-
-            a = Matrix.multiply(a, b);
-
-            a.print();
-
-            Console.ReadLine();
-        }
-
-        static void print(float[] outP)
+        static void print(double[] outP)
         {
             for (int i = 0; i < outP.Length; i++)
             {

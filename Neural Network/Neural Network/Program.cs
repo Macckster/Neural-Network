@@ -46,12 +46,11 @@ namespace Neural_Network
         static void test(NeuralNetwork nn)
         {
             data[] datas = new data[4];
-
+            
             datas[0] = new data(new double[] { 1, 1 }, new double[] { 0 });
             datas[1] = new data(new double[] { 0, 0 }, new double[] { 0 });
             datas[2] = new data(new double[] { 1, 0 }, new double[] { 1 });
             datas[3] = new data(new double[] { 0, 1 }, new double[] { 1 });
-
 
             for (int i = 0; i < 50000; i++)
             {
@@ -60,7 +59,6 @@ namespace Neural_Network
                 data data = datas[index];
                 nn.train(data.inputs, data.targets);
             }
-
 
             while (true)
             {
